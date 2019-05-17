@@ -22,6 +22,8 @@ public class Simulator {
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 50;
     // The probability that a fox will be created in any given grid position.
+    private static final double TIGER_CREATION_PROBABILITY = 0.01;
+    // The probability that a fox will be created in any given grid position.
     private static final double FOX_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;
@@ -66,6 +68,7 @@ public class Simulator {
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
+        view.setColor(Tiger.class, Color.red);
         view.setColor(Fox.class, Color.blue);
         view.setColor(Rabbit.class, Color.orange);
 
@@ -109,7 +112,10 @@ public class Simulator {
             } else if (animal instanceof Fox) {
                 Fox fox = (Fox) animal;
                 fox.hunt(field, updatedField, newAnimals);
-            } else {
+            } else if (animal instanceof Tiger) {
+                Tiger tiger = (Tiger) animal;
+                tiger.hunt(field, updatedField, newAnimals);
+            }else {
                 System.out.println("found unknown animal");
             }
         }
@@ -150,7 +156,12 @@ public class Simulator {
         field.clear();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if (rand.nextDouble() <= TIGER_CREATION_PROBABILITY) {
+                    Tiger tiger = new Tiger(true);
+                    animals.add(tiger);
+                    tiger.setLocation(row, col);
+                    field.place(tiger, row, col);
+                } else if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Fox fox = new Fox(true);
                     animals.add(fox);
                     fox.setLocation(row, col);
