@@ -34,7 +34,6 @@ public class Tiger extends Animal{
         incrementAge();
         incrementHunger();
         if (alive) {
-            // New foxes are born into adjacent locations.
             int births = breed();
             for (int b = 0; b < births; b++) {
                 Tiger newTiger = new Tiger(false);

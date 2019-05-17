@@ -21,15 +21,17 @@ public class Simulator {
     private static final int DEFAULT_WIDTH = 50;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 50;
-    // The probability that a fox will be created in any given grid position.
+    // The probability that a hunter will be created in any given grid position.
+    private static final double HUNTER_CREATION_PROBABILITY = 0.0001;
+    // The probability that a tiger will be created in any given grid position.
     private static final double TIGER_CREATION_PROBABILITY = 0.01;
     // The probability that a fox will be created in any given grid position.
     private static final double FOX_CREATION_PROBABILITY = 0.02;
     // The probability that a rabbit will be created in any given grid position.
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;
 
-    // The list of animals in the field
-    private List animals;
+    // The list of objects in the field
+    private List objects;
     // The list of animals just born
     private List newAnimals;
     // The current state of the field.
@@ -61,13 +63,14 @@ public class Simulator {
             depth = DEFAULT_DEPTH;
             width = DEFAULT_WIDTH;
         }
-        animals = new ArrayList();
+        objects = new ArrayList();
         newAnimals = new ArrayList();
         field = new Field(depth, width);
         updatedField = new Field(depth, width);
 
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
+        view.setColor(Hunter.class, Color.black);
         view.setColor(Tiger.class, Color.red);
         view.setColor(Fox.class, Color.blue);
         view.setColor(Rabbit.class, Color.orange);
@@ -96,31 +99,33 @@ public class Simulator {
 
     /**
      * Run the simulation from its current state for a single step.
-     * Iterate over the whole field updating the state of each
-     * fox and rabbit.
+     * Iterate over the whole field updating the state of each animal or actor
      */
     public void simulateOneStep() {
         step++;
         newAnimals.clear();
 
-        // let all animals act
-        for (Iterator iter = animals.iterator(); iter.hasNext(); ) {
-            Object animal = iter.next();
-            if (animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit) animal;
+        // let all objects act
+        for (Iterator iter = objects.iterator(); iter.hasNext(); ) {
+            Object object = iter.next();
+            if (object instanceof Rabbit) {
+                Rabbit rabbit = (Rabbit) object;
                 rabbit.run(updatedField, newAnimals);
-            } else if (animal instanceof Fox) {
-                Fox fox = (Fox) animal;
+            } else if (object instanceof Fox) {
+                Fox fox = (Fox) object;
                 fox.hunt(field, updatedField, newAnimals);
-            } else if (animal instanceof Tiger) {
-                Tiger tiger = (Tiger) animal;
+            } else if (object instanceof Tiger) {
+                Tiger tiger = (Tiger) object;
                 tiger.hunt(field, updatedField, newAnimals);
+            } else if (object instanceof Hunter) {
+                Hunter hunter = (Hunter) object;
+                hunter.hunt(field, updatedField);
             }else {
                 System.out.println("found unknown animal");
             }
         }
         // add new born animals to the list of animals
-        animals.addAll(newAnimals);
+        objects.addAll(newAnimals);
 
         // Swap the field and updatedField at the end of the step.
         Field temp = field;
@@ -137,7 +142,7 @@ public class Simulator {
      */
     public void reset() {
         step = 0;
-        animals.clear();
+        objects.clear();
         field.clear();
         updatedField.clear();
         populate(field);
@@ -156,25 +161,30 @@ public class Simulator {
         field.clear();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                if (rand.nextDouble() <= TIGER_CREATION_PROBABILITY) {
+                if (rand.nextDouble() <= HUNTER_CREATION_PROBABILITY) {
+                    Hunter hunter = new Hunter();
+                    objects.add(hunter);
+                    hunter.setLocation(row, col);
+                    field.place(hunter, row, col);
+                }else if (rand.nextDouble() <= TIGER_CREATION_PROBABILITY) {
                     Tiger tiger = new Tiger(true);
-                    animals.add(tiger);
+                    objects.add(tiger);
                     tiger.setLocation(row, col);
                     field.place(tiger, row, col);
                 } else if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Fox fox = new Fox(true);
-                    animals.add(fox);
+                    objects.add(fox);
                     fox.setLocation(row, col);
                     field.place(fox, row, col);
                 } else if (rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Rabbit rabbit = new Rabbit(true);
-                    animals.add(rabbit);
+                    objects.add(rabbit);
                     rabbit.setLocation(row, col);
                     field.place(rabbit, row, col);
                 }
                 // else leave the location empty.
             }
         }
-        Collections.shuffle(animals);
+        Collections.shuffle(objects);
     }
 }
