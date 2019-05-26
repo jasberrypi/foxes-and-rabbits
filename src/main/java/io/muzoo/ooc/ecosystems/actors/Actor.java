@@ -1,4 +1,6 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.actors;
+
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
 public abstract class Actor {
     protected boolean alive;

@@ -1,7 +1,10 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.actors.animals;
+
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
+import io.muzoo.ooc.ecosystems.actors.Animal;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of a rabbit.
@@ -10,7 +13,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002.10.28
  */
-public class Rabbit extends Animal{
+public class Rabbit extends Animal {
     // Characteristics shared by all rabbits (static fields).
 
     // The age at which a rabbit can start to breed.

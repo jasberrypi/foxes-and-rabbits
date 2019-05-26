@@ -1,4 +1,4 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.simulation.simhelpers;
 
 import java.util.Collections;
 import java.util.Iterator;

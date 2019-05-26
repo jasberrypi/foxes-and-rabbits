@@ -1,14 +1,16 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.actors;
+
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * A simple model of a hunter.
  * Hunters move, hunt tigers, foxes and rabbits.
  *
  */
-public class Hunter extends Actor{
+public class Hunter extends Actor {
 
     public Hunter() {
         alive = true;

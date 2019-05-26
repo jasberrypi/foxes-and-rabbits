@@ -1,4 +1,8 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.actors.animals;
+
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
+import io.muzoo.ooc.ecosystems.actors.Animal;
 
 import java.util.Iterator;
 import java.util.List;
@@ -8,7 +12,7 @@ import java.util.List;
  * Tigers age, move, eat foxes and rabbits, and die.
  *
  */
-public class Tiger extends Animal{
+public class Tiger extends Animal {
     private static final int BREEDING_AGE = 15;
     private static final int MAX_AGE = 200;
     private static final double BREEDING_PROBABILITY = 0.04;

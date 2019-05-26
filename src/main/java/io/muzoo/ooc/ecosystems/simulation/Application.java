@@ -1,4 +1,4 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.simulation;
 
 public class Application {
     public static void main(String[] args) {

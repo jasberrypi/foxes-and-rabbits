@@ -1,4 +1,11 @@
-package io.muzoo.ooc.ecosystems;
+package io.muzoo.ooc.ecosystems.simulation;
+
+import io.muzoo.ooc.ecosystems.actors.Hunter;
+import io.muzoo.ooc.ecosystems.actors.Rock;
+import io.muzoo.ooc.ecosystems.actors.animals.Fox;
+import io.muzoo.ooc.ecosystems.actors.animals.Rabbit;
+import io.muzoo.ooc.ecosystems.actors.animals.Tiger;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 
 import java.util.Random;
 import java.util.List;
@@ -23,6 +30,8 @@ public class Simulator {
     private static final int DEFAULT_DEPTH = 50;
     // The probability that a hunter will be created in any given grid position.
     private static final double HUNTER_CREATION_PROBABILITY = 0.0001;
+    // The probability that a rock will be created in any given grid position.
+    private static final double ROCK_CREATION_PROBABILITY = 0.005;
     // The probability that a tiger will be created in any given grid position.
     private static final double TIGER_CREATION_PROBABILITY = 0.01;
     // The probability that a fox will be created in any given grid position.
@@ -71,6 +80,7 @@ public class Simulator {
         // Create a view of the state of each location in the field.
         view = new SimulatorView(depth, width);
         view.setColor(Hunter.class, Color.black);
+        view.setColor(Rock.class, Color.gray);
         view.setColor(Tiger.class, Color.red);
         view.setColor(Fox.class, Color.blue);
         view.setColor(Rabbit.class, Color.orange);
@@ -117,6 +127,9 @@ public class Simulator {
             } else if (object instanceof Tiger) {
                 Tiger tiger = (Tiger) object;
                 tiger.hunt(field, updatedField, newAnimals);
+            } else if (object instanceof Rock) {
+                Rock rock = (Rock) object;
+                rock.stay(field, updatedField);
             } else if (object instanceof Hunter) {
                 Hunter hunter = (Hunter) object;
                 hunter.hunt(field, updatedField);
@@ -166,6 +179,11 @@ public class Simulator {
                     objects.add(hunter);
                     hunter.setLocation(row, col);
                     field.place(hunter, row, col);
+                }else if (rand.nextDouble() <= ROCK_CREATION_PROBABILITY) {
+                    Rock rock = new Rock();
+                    objects.add(rock);
+                    rock.setLocation(row, col);
+                    field.place(rock, row, col);
                 }else if (rand.nextDouble() <= TIGER_CREATION_PROBABILITY) {
                     Tiger tiger = new Tiger(true);
                     objects.add(tiger);
