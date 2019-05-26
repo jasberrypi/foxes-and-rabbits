@@ -2,7 +2,6 @@ package io.muzoo.ooc.ecosystems.actors.animals;
 
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
-import io.muzoo.ooc.ecosystems.actors.Animal;
 
 import java.util.List;
 import java.util.Iterator;

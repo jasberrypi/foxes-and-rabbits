@@ -90,32 +90,6 @@ public class Field {
     }
 
     /**
-     * Generate a random location that is adjacent to the
-     * given location, or is the same location.
-     * The returned location will be within the valid bounds
-     * of the field.
-     *
-     * @param location The location from which to generate an adjacency.
-     * @return A valid location within the grid area. This
-     * may be the same object as the location parameter.
-     */
-    public Location randomAdjacentLocation(Location location) {
-        int row = location.getRow();
-        int col = location.getCol();
-        // Generate an offset of -1, 0, or +1 for both the current row and col.
-        int nextRow = row + rand.nextInt(3) - 1;
-        int nextCol = col + rand.nextInt(3) - 1;
-        // Check in case the new location is outside the bounds.
-        if (nextRow < 0 || nextRow >= depth || nextCol < 0 || nextCol >= width) {
-            return location;
-        } else if (nextRow != row || nextCol != col) {
-            return new Location(nextRow, nextCol);
-        } else {
-            return location;
-        }
-    }
-
-    /**
      * Try to find a free location that is adjacent to the
      * given location. If there is none, then return the current
      * location if it is free. If not, return null.

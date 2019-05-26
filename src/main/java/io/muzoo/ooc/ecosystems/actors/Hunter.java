@@ -1,5 +1,6 @@
 package io.muzoo.ooc.ecosystems.actors;
 
+import io.muzoo.ooc.ecosystems.actors.animals.Animal;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
