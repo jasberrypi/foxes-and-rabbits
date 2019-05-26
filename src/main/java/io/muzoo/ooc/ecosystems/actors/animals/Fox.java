@@ -1,8 +1,10 @@
 package io.muzoo.ooc.ecosystems.actors.animals;
 
+import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
 
@@ -27,6 +29,7 @@ public class Fox extends Animal {
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
     private static final int RABBIT_FOOD_VALUE = 4;
+    private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class);
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -55,7 +58,8 @@ public class Fox extends Animal {
      * @param updatedField The field to transfer to.
      * @param newFoxes     A list to add newly born foxes to.
      */
-    public void hunt(Field currentField, Field updatedField, List newFoxes) {
+    @Override
+    public void act(Field currentField, Field updatedField, List<Actor> newFoxes) {
         incrementAge();
         incrementHunger();
         if (alive) {
@@ -101,7 +105,7 @@ public class Fox extends Animal {
             if (animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit) animal;
                 if (rabbit.isAlive()) {
-                    rabbit.setEaten();
+                    rabbit.setDead();
                     foodLevel = RABBIT_FOOD_VALUE;
                     return where;
                 }
@@ -128,5 +132,10 @@ public class Fox extends Animal {
     @Override
     protected int getBreedingAge() {
         return BREEDING_AGE;
+    }
+
+    @Override
+    protected List<Class> getListOfPrey() {
+        return LIST_OF_PREY;
     }
 }

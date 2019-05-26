@@ -41,8 +41,8 @@ public class Simulator {
 
     // The list of objects in the field
     private List objects;
-    // The list of animals just born
-    private List newAnimals;
+    // The list of actors just born
+    private List newActors;
     // The current state of the field.
     private Field field;
     // A second field, used to build the next stage of the simulation.
@@ -73,7 +73,7 @@ public class Simulator {
             width = DEFAULT_WIDTH;
         }
         objects = new ArrayList();
-        newAnimals = new ArrayList();
+        newActors = new ArrayList();
         field = new Field(depth, width);
         updatedField = new Field(depth, width);
 
@@ -113,32 +113,32 @@ public class Simulator {
      */
     public void simulateOneStep() {
         step++;
-        newAnimals.clear();
+        newActors.clear();
 
         // let all objects act
         for (Iterator iter = objects.iterator(); iter.hasNext(); ) {
             Object object = iter.next();
             if (object instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit) object;
-                rabbit.run(updatedField, newAnimals);
+                rabbit.act(field, updatedField, newActors);
             } else if (object instanceof Fox) {
                 Fox fox = (Fox) object;
-                fox.hunt(field, updatedField, newAnimals);
+                fox.act(field, updatedField, newActors);
             } else if (object instanceof Tiger) {
                 Tiger tiger = (Tiger) object;
-                tiger.hunt(field, updatedField, newAnimals);
+                tiger.act(field, updatedField, newActors);
             } else if (object instanceof Rock) {
                 Rock rock = (Rock) object;
-                rock.stay(field, updatedField);
+                rock.act(field, updatedField, newActors);
             } else if (object instanceof Hunter) {
                 Hunter hunter = (Hunter) object;
-                hunter.hunt(field, updatedField);
+                hunter.act(field, updatedField, newActors);
             }else {
                 System.out.println("found unknown animal");
             }
         }
         // add new born animals to the list of animals
-        objects.addAll(newAnimals);
+        objects.addAll(newActors);
 
         // Swap the field and updatedField at the end of the step.
         Field temp = field;

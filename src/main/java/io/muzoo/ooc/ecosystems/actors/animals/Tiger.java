@@ -1,8 +1,10 @@
 package io.muzoo.ooc.ecosystems.actors.animals;
 
+import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class Tiger extends Animal {
     private static final int MAX_LITTER_SIZE = 2;
     private static final int RABBIT_FOOD_VALUE = 2;
     private static final int FOX_FOOD_VALUE = 8;
+    private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class,Fox.class);
 
     public Tiger(boolean randomAge) {
         age = 0;
@@ -31,7 +34,8 @@ public class Tiger extends Animal {
         }
     }
 
-    public void hunt(Field currentField, Field updatedField, List newTigers) {
+    @Override
+    public void act(Field currentField, Field updatedField, List<Actor> newTigers) {
         incrementAge();
         incrementHunger();
         if (alive) {
@@ -69,7 +73,7 @@ public class Tiger extends Animal {
             if (animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit) animal;
                 if (rabbit.isAlive()) {
-                    rabbit.setEaten();
+                    rabbit.setDead();
                     foodLevel = RABBIT_FOOD_VALUE;
                     return where;
                 }
@@ -77,7 +81,7 @@ public class Tiger extends Animal {
             if (animal instanceof Fox) {
                 Fox fox = (Fox) animal;
                 if (fox.isAlive()) {
-                    fox.setEaten();
+                    fox.setDead();
                     foodLevel = FOX_FOOD_VALUE;
                     return where;
                 }
@@ -104,5 +108,10 @@ public class Tiger extends Animal {
     @Override
     protected int getBreedingAge() {
         return BREEDING_AGE;
+    }
+
+    @Override
+    protected List<Class> getListOfPrey() {
+        return LIST_OF_PREY;
     }
 }

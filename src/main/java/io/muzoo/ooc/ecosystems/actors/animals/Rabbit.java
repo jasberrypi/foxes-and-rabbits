@@ -1,8 +1,11 @@
 package io.muzoo.ooc.ecosystems.actors.animals;
 
+import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,7 +26,6 @@ public class Rabbit extends Animal {
     private static final double BREEDING_PROBABILITY = 0.15;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
-    // A shared random number generator to control breeding.
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -46,7 +48,8 @@ public class Rabbit extends Animal {
      * @param updatedField The field to transfer to.
      * @param newRabbits   A list to add newly born rabbits to.
      */
-    public void run(Field updatedField, List newRabbits) {
+    @Override
+    public void act(Field currentField, Field updatedField, List<Actor> newRabbits) {
         incrementAge();
         if (alive) {
             int births = breed();
@@ -89,5 +92,10 @@ public class Rabbit extends Animal {
     @Override
     protected int getBreedingAge() {
         return BREEDING_AGE;
+    }
+
+    @Override
+    protected List<Class> getListOfPrey() {
+        return null;
     }
 }

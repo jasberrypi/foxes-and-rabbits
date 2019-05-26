@@ -1,7 +1,11 @@
 package io.muzoo.ooc.ecosystems.actors.animals;
 
 import io.muzoo.ooc.ecosystems.actors.Actor;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
+import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Animal extends Actor {
