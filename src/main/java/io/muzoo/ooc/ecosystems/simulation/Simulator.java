@@ -9,7 +9,6 @@ import io.muzoo.ooc.ecosystems.actors.animals.Rabbit;
 import io.muzoo.ooc.ecosystems.actors.animals.Tiger;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 
-import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;

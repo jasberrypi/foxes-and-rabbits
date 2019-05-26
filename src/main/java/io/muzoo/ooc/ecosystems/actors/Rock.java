@@ -2,11 +2,10 @@ package io.muzoo.ooc.ecosystems.actors;
 
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Rock extends Actor{
-
+    public static final double CREATION_PROBABILITY = 0.005;
 
     public Rock(boolean randomAge){
         alive = true;

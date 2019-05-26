@@ -10,18 +10,27 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ActorFactory {
 
-    public static Map<Class,Double> probabilitiesMap = new LinkedHashMap<Class,Double>(){{
-        put(Hunter.class, 0.0001);
-        put(Rock.class, 0.005);
-        put(Tiger.class, 0.01);
-        put(Fox.class, 0.02);
-        put(Rabbit.class, 0.08);
+    public static Map<String,Class> actorsMap = new LinkedHashMap<String, Class>(){{
+        put("hunter", Hunter.class);
+        put("rock", Rock.class);
+        put("tiger", Tiger.class);
+        put("fox", Fox.class);
+        put("rabbit", Rabbit.class);
     }};
 
     public static Actor createActor() {
         double randomNum = Math.random(); // generates random number between 0 & 1
-        for (Class type : probabilitiesMap.keySet()) {
-            Double probNum = probabilitiesMap.get(type);
+        for (String className : actorsMap.keySet()) {
+            Class type = actorsMap.get(className);
+            Object prob = null;
+            try {
+                prob = type.getDeclaredField("CREATION_PROBABILITY").get(null);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            double probNum = (double)prob;
             if (randomNum < probNum) {
                 Actor newActor = null;
                 try {

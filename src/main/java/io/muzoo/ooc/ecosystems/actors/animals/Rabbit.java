@@ -26,6 +26,7 @@ public class Rabbit extends Animal {
     private static final double BREEDING_PROBABILITY = 0.15;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
+    public static final double CREATION_PROBABILITY = 0.08;
 
     /**
      * Create a new rabbit. A rabbit may be created with age

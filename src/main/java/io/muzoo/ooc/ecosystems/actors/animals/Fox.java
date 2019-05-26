@@ -25,6 +25,7 @@ public class Fox extends Animal {
     // number of steps a fox can go before it has to eat again.
     private static final int PREY_FOOD_VALUE = 4;
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class);
+    public static final double CREATION_PROBABILITY = 0.02;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

@@ -20,6 +20,7 @@ public class Tiger extends Animal {
     private static final int MAX_LITTER_SIZE = 2;
     private static final int PREY_FOOD_VALUE = 5;
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class,Fox.class);
+    public static final double CREATION_PROBABILITY = 0.01;
 
     public Tiger(boolean randomAge) {
         age = 0;
