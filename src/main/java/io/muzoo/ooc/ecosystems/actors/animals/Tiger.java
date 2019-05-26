@@ -40,11 +40,13 @@ public class Tiger extends Animal {
         if (alive) {
             int births = breed();
             for (int b = 0; b < births; b++) {
-                Tiger newTiger = new Tiger(false);
-                newTigers.add(newTiger);
-                Location loc = updatedField.randomAdjacentLocation(location);
-                newTiger.setLocation(loc);
-                updatedField.place(newTiger, loc);
+                Location loc = updatedField.freeAdjacentLocation(location);
+                if (loc != null){
+                    Tiger newTiger = new Tiger(false);
+                    newTigers.add(newTiger);
+                    newTiger.setLocation(loc);
+                    updatedField.place(newTiger, loc);
+                }
             }
             // Move towards the source of food if found.
             Location newLocation = findFood(currentField, location);
