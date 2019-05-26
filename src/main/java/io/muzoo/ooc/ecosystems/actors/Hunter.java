@@ -19,7 +19,7 @@ import java.util.List;
 public class Hunter extends Actor {
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class, Fox.class, Tiger.class);
 
-    public Hunter() {
+    public Hunter(boolean randomAge) {
         alive = true;
     }
 

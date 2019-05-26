@@ -75,6 +75,16 @@ public class Rabbit extends Animal {
     }
 
     @Override
+    protected Class getClassType() {
+        return this.getClass();
+    }
+
+    @Override
+    protected int getPreyFoodValue() {
+        return 0;
+    }
+
+    @Override
     protected int getMaxAge() {
         return MAX_AGE;
     }

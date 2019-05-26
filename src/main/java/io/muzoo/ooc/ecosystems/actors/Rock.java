@@ -8,7 +8,9 @@ import java.util.List;
 public class Rock extends Actor{
 
 
-    public Rock(){ alive = true; }
+    public Rock(boolean randomAge){
+        alive = true;
+    }
 
     @Override
     public void act(Field currentField, Field updatedField, List<Actor> newRocks) {

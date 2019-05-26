@@ -47,7 +47,7 @@ public abstract class Actor {
         while (adjacentLocations.hasNext()) {
             Location where = (Location) adjacentLocations.next();
             Object actor = field.getObjectAt(where);
-            if (actor!= null && ListOfPrey.contains(actor.getClass())) {
+            if (ListOfPrey!= null && actor!= null && ListOfPrey.contains(actor.getClass())) {
                 Actor prey = (Actor) actor;
                 if (prey.isAlive()) {
                     prey.setDead();

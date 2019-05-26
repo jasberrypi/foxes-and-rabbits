@@ -175,12 +175,12 @@ public class Simulator {
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
                 if (rand.nextDouble() <= HUNTER_CREATION_PROBABILITY) {
-                    Hunter hunter = new Hunter();
+                    Hunter hunter = new Hunter(true);
                     objects.add(hunter);
                     hunter.setLocation(row, col);
                     field.place(hunter, row, col);
                 }else if (rand.nextDouble() <= ROCK_CREATION_PROBABILITY) {
-                    Rock rock = new Rock();
+                    Rock rock = new Rock(true);
                     objects.add(rock);
                     rock.setLocation(row, col);
                     field.place(rock, row, col);
