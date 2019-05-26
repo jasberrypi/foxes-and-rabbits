@@ -1,5 +1,7 @@
 package io.muzoo.ooc.ecosystems.simulation;
 
+import io.muzoo.ooc.ecosystems.actors.Actor;
+import io.muzoo.ooc.ecosystems.actors.ActorFactory;
 import io.muzoo.ooc.ecosystems.actors.Hunter;
 import io.muzoo.ooc.ecosystems.actors.Rock;
 import io.muzoo.ooc.ecosystems.actors.animals.Fox;
@@ -28,19 +30,9 @@ public class Simulator {
     private static final int DEFAULT_WIDTH = 50;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 50;
-    // The probability that a hunter will be created in any given grid position.
-    private static final double HUNTER_CREATION_PROBABILITY = 0.0001;
-    // The probability that a rock will be created in any given grid position.
-    private static final double ROCK_CREATION_PROBABILITY = 0.005;
-    // The probability that a tiger will be created in any given grid position.
-    private static final double TIGER_CREATION_PROBABILITY = 0.01;
-    // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
-    // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;
 
-    // The list of objects in the field
-    private List objects;
+    // The list of actors in the field
+    private List actors;
     // The list of actors just born
     private List newActors;
     // The current state of the field.
@@ -72,7 +64,7 @@ public class Simulator {
             depth = DEFAULT_DEPTH;
             width = DEFAULT_WIDTH;
         }
-        objects = new ArrayList();
+        actors = new ArrayList();
         newActors = new ArrayList();
         field = new Field(depth, width);
         updatedField = new Field(depth, width);
@@ -116,29 +108,17 @@ public class Simulator {
         newActors.clear();
 
         // let all objects act
-        for (Iterator iter = objects.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = actors.iterator(); iter.hasNext(); ) {
             Object object = iter.next();
-            if (object instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit) object;
-                rabbit.act(field, updatedField, newActors);
-            } else if (object instanceof Fox) {
-                Fox fox = (Fox) object;
-                fox.act(field, updatedField, newActors);
-            } else if (object instanceof Tiger) {
-                Tiger tiger = (Tiger) object;
-                tiger.act(field, updatedField, newActors);
-            } else if (object instanceof Rock) {
-                Rock rock = (Rock) object;
-                rock.act(field, updatedField, newActors);
-            } else if (object instanceof Hunter) {
-                Hunter hunter = (Hunter) object;
-                hunter.act(field, updatedField, newActors);
+            if (object instanceof Actor) {
+                Actor actor = (Actor) object;
+                actor.act(field, updatedField, newActors);
             }else {
-                System.out.println("found unknown animal");
+                System.out.println("found unknown object");
             }
         }
         // add new born animals to the list of animals
-        objects.addAll(newActors);
+        actors.addAll(newActors);
 
         // Swap the field and updatedField at the end of the step.
         Field temp = field;
@@ -155,7 +135,7 @@ public class Simulator {
      */
     public void reset() {
         step = 0;
-        objects.clear();
+        actors.clear();
         field.clear();
         updatedField.clear();
         populate(field);
@@ -165,44 +145,23 @@ public class Simulator {
     }
 
     /**
-     * Populate a field with foxes and rabbits.
+     * Populate a field with actors.
      *
      * @param field The field to be populated.
      */
     private void populate(Field field) {
-        Random rand = new Random();
         field.clear();
+        ActorFactory factory = new ActorFactory();
         for (int row = 0; row < field.getDepth(); row++) {
             for (int col = 0; col < field.getWidth(); col++) {
-                if (rand.nextDouble() <= HUNTER_CREATION_PROBABILITY) {
-                    Hunter hunter = new Hunter(true);
-                    objects.add(hunter);
-                    hunter.setLocation(row, col);
-                    field.place(hunter, row, col);
-                }else if (rand.nextDouble() <= ROCK_CREATION_PROBABILITY) {
-                    Rock rock = new Rock(true);
-                    objects.add(rock);
-                    rock.setLocation(row, col);
-                    field.place(rock, row, col);
-                }else if (rand.nextDouble() <= TIGER_CREATION_PROBABILITY) {
-                    Tiger tiger = new Tiger(true);
-                    objects.add(tiger);
-                    tiger.setLocation(row, col);
-                    field.place(tiger, row, col);
-                } else if (rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
-                    Fox fox = new Fox(true);
-                    objects.add(fox);
-                    fox.setLocation(row, col);
-                    field.place(fox, row, col);
-                } else if (rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
-                    Rabbit rabbit = new Rabbit(true);
-                    objects.add(rabbit);
-                    rabbit.setLocation(row, col);
-                    field.place(rabbit, row, col);
+                Actor actor = factory.createActor();
+                if (actor != null) {
+                    actors.add(actor);
+                    actor.setLocation(row, col);
+                    field.place(actor, row, col);
                 }
-                // else leave the location empty.
             }
         }
-        Collections.shuffle(objects);
+        Collections.shuffle(actors);
     }
 }
