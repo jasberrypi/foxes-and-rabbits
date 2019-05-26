@@ -28,10 +28,6 @@ public class Fox extends Animal {
     // number of steps a fox can go before it has to eat again.
     private static final int RABBIT_FOOD_VALUE = 4;
 
-    // Individual characteristics (instance fields).
-    // The fox's food level, which is increased by eating rabbits.
-    private int foodLevel;
-
     /**
      * Create a fox. A fox can be created as a new born (age zero
      * and not hungry) or with random age.
@@ -90,27 +86,6 @@ public class Fox extends Animal {
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
-     */
-    @Override
-    protected void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            alive = false;
-        }
-    }
-
-    /**
-     * Make this fox more hungry. This could result in the fox's death.
-     */
-    private void incrementHunger() {
-        foodLevel--;
-        if (foodLevel <= 0) {
-            alive = false;
-        }
-    }
-
-    /**
      * Tell the fox to look for rabbits adjacent to its current location.
      *
      * @param field    The field in which it must look.
@@ -135,24 +110,23 @@ public class Fox extends Animal {
         return null;
     }
 
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     *
-     * @return The number of births (may be zero).
-     */
-    private int breed() {
-        int births = 0;
-        if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
+    @Override
+    protected int getMaxAge() {
+        return MAX_AGE;
     }
 
-    /**
-     * A fox can breed if it has reached the breeding age.
-     */
-    private boolean canBreed() {
-        return age >= BREEDING_AGE;
+    @Override
+    protected double getBreedingProbability() {
+        return BREEDING_PROBABILITY;
+    }
+
+    @Override
+    protected int getMaxLitterSize() {
+        return MAX_LITTER_SIZE;
+    }
+
+    @Override
+    protected int getBreedingAge() {
+        return BREEDING_AGE;
     }
 }

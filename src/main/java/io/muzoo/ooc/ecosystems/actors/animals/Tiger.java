@@ -19,8 +19,6 @@ public class Tiger extends Animal {
     private static final int RABBIT_FOOD_VALUE = 2;
     private static final int FOX_FOOD_VALUE = 8;
 
-    private int foodLevel;
-
     public Tiger(boolean randomAge) {
         age = 0;
         alive = true;
@@ -62,21 +60,6 @@ public class Tiger extends Animal {
         }
     }
 
-    @Override
-    protected void incrementAge() {
-        age++;
-        if (age > MAX_AGE) {
-            alive = false;
-        }
-    }
-
-    private void incrementHunger() {
-        foodLevel--;
-        if (foodLevel <= 0) {
-            alive = false;
-        }
-    }
-
     private Location findFood(Field field, Location location) {
         Iterator adjacentLocations =
                 field.adjacentLocations(location);
@@ -103,15 +86,23 @@ public class Tiger extends Animal {
         return null;
     }
 
-    private int breed() {
-        int births = 0;
-        if (canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
+    @Override
+    protected int getMaxAge() {
+        return MAX_AGE;
     }
 
-    private boolean canBreed() {
-        return age >= BREEDING_AGE;
+    @Override
+    protected double getBreedingProbability() {
+        return BREEDING_PROBABILITY;
+    }
+
+    @Override
+    protected int getMaxLitterSize() {
+        return MAX_LITTER_SIZE;
+    }
+
+    @Override
+    protected int getBreedingAge() {
+        return BREEDING_AGE;
     }
 }
