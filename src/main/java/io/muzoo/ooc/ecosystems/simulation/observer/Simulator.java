@@ -1,4 +1,4 @@
-package io.muzoo.ooc.ecosystems.simulation;
+package io.muzoo.ooc.ecosystems.simulation.observer;
 
 import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.actors.ActorFactory;
@@ -9,10 +9,7 @@ import io.muzoo.ooc.ecosystems.actors.animals.Rabbit;
 import io.muzoo.ooc.ecosystems.actors.animals.Tiger;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Collections;
+import java.util.*;
 import java.awt.Color;
 
 /**
@@ -22,7 +19,7 @@ import java.awt.Color;
  * @author David J. Barnes and Michael Kolling
  * @version 2002.10.28
  */
-public class Simulator {
+public class Simulator implements Subject{
     // The private static final variables represent 
     // configuration information for the simulation.
     // The default width for the grid.
@@ -35,13 +32,12 @@ public class Simulator {
     // The list of actors just born
     private List newActors;
     // The current state of the field.
-    private Field field;
+    protected Field field;
     // A second field, used to build the next stage of the simulation.
     private Field updatedField;
     // The current step of the simulation.
-    private int step;
-    // A graphical view of the simulation.
-    private SimulatorView view;
+    protected int step;
+    private Set<Observer> observers;
 
     /**
      * Construct a simulation field with default size.
@@ -67,14 +63,7 @@ public class Simulator {
         newActors = new ArrayList();
         field = new Field(depth, width);
         updatedField = new Field(depth, width);
-
-        // Create a view of the state of each location in the field.
-        view = new SimulatorView(depth, width);
-        view.setColor(Hunter.class, Color.black);
-        view.setColor(Rock.class, Color.gray);
-        view.setColor(Tiger.class, Color.red);
-        view.setColor(Fox.class, Color.blue);
-        view.setColor(Rabbit.class, Color.orange);
+        observers = new HashSet<>();
 
         // Setup a valid starting point.
         reset();
@@ -93,7 +82,7 @@ public class Simulator {
      * Stop before the given number of steps if it ceases to be viable.
      */
     public void simulate(int numSteps) {
-        for (int step = 1; step <= numSteps && view.isViable(field); step++) {
+        for (int step = 1; step <= numSteps; step++) {
             simulateOneStep();
         }
     }
@@ -126,7 +115,7 @@ public class Simulator {
         updatedField.clear();
 
         // display the new field on screen
-        view.showStatus(step, field);
+        notifyAllObservers();
     }
 
     /**
@@ -140,7 +129,7 @@ public class Simulator {
         populate(field);
 
         // Show the starting state in the view.
-        view.showStatus(step, field);
+        notifyAllObservers();
     }
 
     /**
@@ -162,5 +151,24 @@ public class Simulator {
             }
         }
         Collections.shuffle(actors);
+    }
+
+    @Override
+    public void notifyAllObservers() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+        observer.setSubject(this);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+        observer.setSubject(null);
     }
 }

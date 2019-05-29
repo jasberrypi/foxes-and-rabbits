@@ -1,5 +1,10 @@
-package io.muzoo.ooc.ecosystems.simulation;
+package io.muzoo.ooc.ecosystems.simulation.observer;
 
+import io.muzoo.ooc.ecosystems.actors.Hunter;
+import io.muzoo.ooc.ecosystems.actors.Rock;
+import io.muzoo.ooc.ecosystems.actors.animals.Fox;
+import io.muzoo.ooc.ecosystems.actors.animals.Rabbit;
+import io.muzoo.ooc.ecosystems.actors.animals.Tiger;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.FieldStats;
 
@@ -17,7 +22,7 @@ import java.util.HashMap;
  * @author David J. Barnes and Michael Kolling
  * @version 2003.12.22
  */
-public class SimulatorView extends JFrame {
+public class SimulatorView extends JFrame implements Observer{
     // Colors used for empty locations.
     private static final Color EMPTY_COLOR = Color.white;
 
@@ -33,6 +38,7 @@ public class SimulatorView extends JFrame {
     private HashMap colors;
     // A statistics object computing and storing simulation information
     private FieldStats stats;
+    private Subject subject;
 
     /**
      * Create a view of the given width and height.
@@ -55,6 +61,12 @@ public class SimulatorView extends JFrame {
         contents.add(population, BorderLayout.SOUTH);
         pack();
         setVisible(true);
+
+        this.setColor(Hunter.class, Color.black);
+        this.setColor(Rock.class, Color.gray);
+        this.setColor(Tiger.class, Color.red);
+        this.setColor(Fox.class, Color.blue);
+        this.setColor(Rabbit.class, Color.orange);
     }
 
     /**
@@ -119,6 +131,17 @@ public class SimulatorView extends JFrame {
      */
     public boolean isViable(Field field) {
         return stats.isViable(field);
+    }
+
+    @Override
+    public void update() {
+        Simulator sim = (Simulator)subject;
+        this.showStatus(sim.step,sim.field);
+    }
+
+    @Override
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     /**
