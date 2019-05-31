@@ -35,7 +35,7 @@ public class SimulatorView extends JFrame implements Observer{
     private FieldView fieldView;
 
     // A map for storing colors for participants in the simulation
-    private HashMap colors;
+    public HashMap colors;
     // A statistics object computing and storing simulation information
     private FieldStats stats;
     private Subject subject;

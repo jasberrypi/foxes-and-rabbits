@@ -187,5 +187,7 @@ public class Simulator implements Subject{
     public void removeObserver(Observer observer) {
         observers.remove(observer);
         observer.setSubject(null);
+        SimulatorView view = (SimulatorView)observer;
+        view.colors = new HashMap();
     }
 }
