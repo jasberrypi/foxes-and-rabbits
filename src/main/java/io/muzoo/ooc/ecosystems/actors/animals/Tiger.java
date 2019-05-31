@@ -4,6 +4,7 @@ import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Tiger extends Animal {
     private static final int PREY_FOOD_VALUE = 5;
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class,Fox.class);
     public static final double CREATION_PROBABILITY = 0.01;
+    public static final Color CLASS_COLOR = Color.red;
 
     public Tiger(boolean randomAge) {
         age = 0;

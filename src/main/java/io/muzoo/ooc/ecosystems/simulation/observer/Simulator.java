@@ -38,6 +38,7 @@ public class Simulator implements Subject{
     // The current step of the simulation.
     protected int step;
     private Set<Observer> observers;
+    public HashMap colors;
 
     /**
      * Construct a simulation field with default size.
@@ -64,6 +65,7 @@ public class Simulator implements Subject{
         field = new Field(depth, width);
         updatedField = new Field(depth, width);
         observers = new HashSet<>();
+        colors = new HashMap();
 
         // Setup a valid starting point.
         reset();
@@ -137,7 +139,7 @@ public class Simulator implements Subject{
      *
      * @param field The field to be populated.
      */
-    private void populate(Field field) {
+    private void populate(Field field){
         field.clear();
         ActorFactory factory = new ActorFactory();
         for (int row = 0; row < field.getDepth(); row++) {
@@ -147,9 +149,24 @@ public class Simulator implements Subject{
                     actors.add(actor);
                     actor.setLocation(row, col);
                     field.place(actor, row, col);
+
+                    Class type = actor.getClass();
+                    if (!colors.containsKey(type)){
+                        Object classColor = null;
+                        try {
+                            classColor = type.getDeclaredField("CLASS_COLOR").get(null);
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        Color color = (Color)classColor;
+                        colors.put(type, color);
+                    }
                 }
             }
         }
+
         Collections.shuffle(actors);
     }
 

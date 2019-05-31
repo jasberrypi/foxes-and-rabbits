@@ -1,5 +1,6 @@
 package io.muzoo.ooc.ecosystems.actors.animals;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Fox extends Animal {
     private static final int PREY_FOOD_VALUE = 4;
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class);
     public static final double CREATION_PROBABILITY = 0.02;
+    public static final Color CLASS_COLOR = Color.blue;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero

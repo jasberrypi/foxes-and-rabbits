@@ -4,6 +4,7 @@ import io.muzoo.ooc.ecosystems.actors.Actor;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Rabbit extends Animal {
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     public static final double CREATION_PROBABILITY = 0.08;
+    public static final Color CLASS_COLOR = Color.orange;
 
     /**
      * Create a new rabbit. A rabbit may be created with age

@@ -7,6 +7,7 @@ import io.muzoo.ooc.ecosystems.actors.animals.Tiger;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Field;
 import io.muzoo.ooc.ecosystems.simulation.simhelpers.Location;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class Hunter extends Actor {
     private static final List<Class> LIST_OF_PREY = Arrays.asList(Rabbit.class, Fox.class, Tiger.class);
     public static final double CREATION_PROBABILITY = 0.0001;
+    public static final Color CLASS_COLOR = Color.black;
 
     public Hunter(boolean randomAge) {
         alive = true;

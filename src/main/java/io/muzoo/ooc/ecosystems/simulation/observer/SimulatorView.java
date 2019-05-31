@@ -61,12 +61,6 @@ public class SimulatorView extends JFrame implements Observer{
         contents.add(population, BorderLayout.SOUTH);
         pack();
         setVisible(true);
-
-        this.setColor(Hunter.class, Color.black);
-        this.setColor(Rock.class, Color.gray);
-        this.setColor(Tiger.class, Color.red);
-        this.setColor(Fox.class, Color.blue);
-        this.setColor(Rabbit.class, Color.orange);
     }
 
     /**
@@ -142,6 +136,8 @@ public class SimulatorView extends JFrame implements Observer{
     @Override
     public void setSubject(Subject subject) {
         this.subject = subject;
+        Simulator sim = (Simulator)subject;
+        colors = sim.colors;
     }
 
     /**
